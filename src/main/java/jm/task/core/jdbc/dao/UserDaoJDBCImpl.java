@@ -20,7 +20,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("CREATE TABLE Users (id BIGINT NOT NULL AUTO_INCREMENT primary key, name VARCHAR(45) NOT NULL, lastName VARCHAR(45) NOT NULL, age TINYINT NOT NULL);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS Users (id BIGINT NOT NULL AUTO_INCREMENT primary key, name VARCHAR(45) NOT NULL, lastName VARCHAR(45) NOT NULL, age TINYINT NOT NULL);");
             System.out.println("Таблица создана успешно");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -29,10 +29,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate("drop table Users");
+            statement.executeUpdate("DROP TABLE IF EXISTS Users");
             System.out.println("Таблица удалена успешно");
-        } catch (SQLException ignore) {
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -40,9 +40,9 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("INSERT INTO Users (name, lastName, age) VALUES ('" + name + "', '" + lastName + "', '" + age + "')");
             System.out.println("User с именем- " + name + " добавлен в базу данных");
-        } catch (SQLException throwable) {
+        } catch (SQLException throwables) {
             System.out.println("Ошибка при добавление User");
-            throwable.printStackTrace();
+            throwables.printStackTrace();
         }
     }
 
@@ -50,9 +50,9 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate("DELETE FROM Users WHERE ID = " + id + " ");
             System.out.println("User удален успешно");
-        } catch (SQLException throwable) {
+        } catch (SQLException throwables) {
             System.out.println("Ошибка при удаление User");
-            throwable.printStackTrace();
+            throwables.printStackTrace();
         }
     }
 
@@ -67,8 +67,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(resultSet.getByte("age"));
                 userList.add(user);
             }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return userList;
     }
@@ -78,9 +78,9 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.executeUpdate("DELETE FROM Users");
             System.out.println("Очистка таблицы проведена успешно");
 
-        } catch (SQLException throwable) {
+        } catch (SQLException e) {
             System.out.println("Ошибка при очистке таблицы");
-            throwable.printStackTrace();
+            e.printStackTrace();
         }
     }
 }
