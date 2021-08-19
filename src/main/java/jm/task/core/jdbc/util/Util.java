@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    private final String URL = "jdbc:mysql://localhost:3306/my_schema?autoReconnect=true&useSSL=false&serverTimezone=UTC";
-    private final String USERNAME = "root";
-    private final String PASSWORD = "root";
-    private final String DRIVER = "com.mysql.cj.jdbc.Driver";
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
+        final String URL = "jdbc:mysql://localhost:3306/my_schema?autoReconnect=true&useSSL=false&serverTimezone=UTC";
+        final String USERNAME = "root";
+        final String PASSWORD = "root";
+        final String DRIVER = "com.mysql.cj.jdbc.Driver";
         Connection connection = null;
 
         try {
